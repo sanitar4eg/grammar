@@ -10,6 +10,7 @@ import ru.lspl.patterns.Pattern;
 import ru.lspl.text.Match;
 import ru.lspl.text.MatchVariant;
 import ru.lspl.text.Text;
+import ru.lspl.text.Transition;
 import ru.lspl.text.attributes.AttributeKey;
 
 import javax.annotation.PostConstruct;
@@ -52,7 +53,7 @@ public class SampleStart {
 
     private void printMatches(Text text, List<Pattern> patterns) {
         Map<Pattern, List<Match>> map = patterns.stream()
-                .filter(pattern -> LsplTextAnalyzer.definedPatterns.contains(pattern.name))
+                .filter(pattern -> !LsplTextAnalyzer.definedPatterns.contains(pattern.name))
                 .collect(Collectors.toMap(
                 pattern -> pattern,
                 text::getMatches));
@@ -60,8 +61,7 @@ public class SampleStart {
         map.forEach((pattern, matches) -> log.info("\nPattern: {},\nMatches: {}",
                 new StringJoiner("= ").add(pattern.name).add(pattern.getSource()).toString(),
                 matches.stream()
-                        .map(match -> match.getContent())
-//                        .map(matchVar -> matchVar.())
+                        .map(Transition::getContent)
                         .collect(Collectors.joining("\n ", "\n[", "]"))));
 
     }

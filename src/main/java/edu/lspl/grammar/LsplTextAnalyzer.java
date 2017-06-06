@@ -18,8 +18,8 @@ import java.util.*;
 public class LsplTextAnalyzer implements TextAnalyzer {
 
     public static final Set<String> definedPatterns = new HashSet<>(
-//            Arrays.asList("One", "Two", "Three", "Four", "Five", "BornPlace")
-            Arrays.asList("BornPlace", "Locative", "MaterialFeature")
+            Arrays.asList("AP", "MSP", "Term", "APXXX", "Defin", "Def", "Prep", "DefinIns", "DefinXXX", "One",
+                    "Two", "Three", "Four", "Five", "NP")
     );
 
 

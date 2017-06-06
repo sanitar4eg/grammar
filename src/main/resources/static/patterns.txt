@@ -13,6 +13,19 @@ Three = Term1<c=nom> '-' ['это'] Def1<c=nom> =text> #Term1 '-' #Def1
 Four = Term1<c=ins> 'мы' 'называем' DefinIns1<c=acc> =text> #Term1 '-' #DefinIns1
 Five = 'под' Term1<c=ins> 'мы' 'понимаем' DefinXXX1<c=acc> =text> #Term1 '-' #DefinXXX1
 
+NP = N (N) =text> N | Pn (Pn) =text> Pn
 BornPlace = N1 V<родиться> 'в' Term1 =text> #Term1
-Locative = ['в' | 'на'] Term1<c=prep> =text> #Term1
+GuidingActionVerb = V<править> (V) =text> V | V<управлять> (V) =text> V | V<руководить> (V) =text> V | V<командовать> (V) =text> V | V<распоряжаться> (V) =text> V
+SpeechActionVerb = V<говорить> (V) =text> V | V<сообщать> (V) =text> V | V<рассказывать> (V) =text> V | V<обратиться> (V) =text> V
+NominalSyntaxum = [NP] V NP<c=ins>
+
+Locative = 'в' Term1<c=prep> | 'на' Term1<c=prep> =text> #Term1
 MaterialFeature = 'за' Term1<c=ins> Term2<c=nom> =text> 'за' #Term1 #Term2
+PureVerbPhrases = V Term1<c=acc> =text> #Term1
+Deliberate = NP<c=nom> V NP<c=acc> | [NP<c=nom>] V 'о' NP<c=prep> | NP<c=dat> V NP<c=nom>
+Directives = 'за' N<c=ins> | 'в' N<c=acc> | 'на' N<c=acc>
+Meditative = [V] N<c=ins>
+GuidingNominalSyntaxum = [NP] GuidingActionVerb NP<c=ins>
+Situation = 'под' N<c=ins>
+Transit = 'по' N<c=dat>
+Destination = [NP] SpeechActionVerb [Pr] N<c=dat>
