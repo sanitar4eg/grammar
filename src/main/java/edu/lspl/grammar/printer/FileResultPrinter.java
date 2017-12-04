@@ -47,7 +47,8 @@ public class FileResultPrinter implements ResultPrinter {
 
             String header = new StringJoiner(DELIMITER)
                     .add(pattern.name).add(pattern.getSource()).toString();
-            Files.write(file, header.getBytes(), StandardOpenOption.CREATE);
+            Files.write(file, header.getBytes(),
+                    StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE);
 
             List<String> strings = matches.stream()
                     .map(Transition::getContent)
@@ -69,7 +70,8 @@ public class FileResultPrinter implements ResultPrinter {
                             word.base, word.form, word.speechPart, attrToString(word.getAttributes())))
                     .collect(Collectors.toList());
 
-            Files.write(file, lines, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
+            Files.write(file, lines, StandardCharsets.UTF_8,
+                    StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE);
         } catch (Exception e) {
             log.error("Error while create file", e);
         }
