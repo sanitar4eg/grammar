@@ -1,4 +1,4 @@
-package edu.lspl.grammar;
+package edu.lspl.grammar.analyzer;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -26,8 +26,6 @@ public class LsplTextAnalyzer implements TextAnalyzer {
     private static final Logger log = LoggerFactory.getLogger(LsplTextAnalyzer.class);
 
     private PatternBuilder patternBuilder;
-
-    private List<Pattern> patterns = new ArrayList<>();
 
     @PostConstruct
     private void init() {

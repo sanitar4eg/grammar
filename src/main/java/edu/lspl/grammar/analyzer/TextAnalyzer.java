@@ -1,4 +1,4 @@
-package edu.lspl.grammar;
+package edu.lspl.grammar.analyzer;
 
 import org.springframework.core.io.Resource;
 import ru.lspl.patterns.Pattern;
