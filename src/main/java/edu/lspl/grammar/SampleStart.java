@@ -19,15 +19,12 @@ import java.util.List;
 public class SampleStart {
 
     private static final Logger log = LoggerFactory.getLogger(SampleStart.class);
-
-    @Value("classpath:static/text.txt")
-    private Resource text;
-
-    @Value("classpath:static/patterns.txt")
-    private Resource patterns;
-
     private final ResultPrinter printer;
     private final TextAnalyzer textAnalyzer;
+    @Value("classpath:static/text.txt")
+    private Resource text;
+    @Value("classpath:static/patterns.txt")
+    private Resource patterns;
 
     @Autowired
     public SampleStart(@Qualifier("file") ResultPrinter printer, TextAnalyzer textAnalyzer) {

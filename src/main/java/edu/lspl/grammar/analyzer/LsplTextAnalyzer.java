@@ -11,8 +11,12 @@ import ru.lspl.patterns.PatternBuildingException;
 import ru.lspl.text.Text;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class LsplTextAnalyzer implements TextAnalyzer {
@@ -26,6 +30,15 @@ public class LsplTextAnalyzer implements TextAnalyzer {
     private static final Logger log = LoggerFactory.getLogger(LsplTextAnalyzer.class);
 
     private PatternBuilder patternBuilder;
+
+    private static String openResource(Resource file) {
+        try (InputStream is = file.getInputStream()) {
+            return IOUtils.toString(is);
+        } catch (IOException e) {
+            log.error("Error while opening file", e);
+            throw new RuntimeException(e);
+        }
+    }
 
     @PostConstruct
     private void init() {
@@ -66,15 +79,6 @@ public class LsplTextAnalyzer implements TextAnalyzer {
             patternBuilder.build(line);
         } catch (PatternBuildingException e) {
             log.error("Error while build pattern", e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static String openResource(Resource file) {
-        try (InputStream is = file.getInputStream()) {
-            return IOUtils.toString(is);
-        } catch (IOException e) {
-            log.error("Error while opening file", e);
             throw new RuntimeException(e);
         }
     }
