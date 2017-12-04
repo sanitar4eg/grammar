@@ -49,6 +49,7 @@ public class FileResultPrinter implements ResultPrinter {
                     .add(pattern.name).add(pattern.getSource()).toString();
             Files.write(file, header.getBytes(),
                     StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE);
+            Files.write(file, "\n".getBytes(), StandardOpenOption.APPEND);
 
             List<String> strings = matches.stream()
                     .map(Transition::getContent)
