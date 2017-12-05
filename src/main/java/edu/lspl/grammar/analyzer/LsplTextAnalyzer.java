@@ -26,7 +26,6 @@ public class LsplTextAnalyzer implements TextAnalyzer {
                     "Two", "Three", "Four", "Five", "NP")
     );
 
-
     private static final Logger log = LoggerFactory.getLogger(LsplTextAnalyzer.class);
 
     private PatternBuilder patternBuilder;
@@ -47,7 +46,9 @@ public class LsplTextAnalyzer implements TextAnalyzer {
 
     @Override
     public Text analyze(String text) {
+        log.info("Start loading text");
         Text result = Text.create(text);
+        log.info("Finish loading text");
         result.getMatches(patternBuilder.getDefinedPatterns());
         return result;
     }
@@ -76,7 +77,9 @@ public class LsplTextAnalyzer implements TextAnalyzer {
 
     private void buildPattern(String line) {
         try {
+            log.info("Start build pattern: {}", line);
             patternBuilder.build(line);
+            log.info("Finish build pattern");
         } catch (PatternBuildingException e) {
             log.error("Error while build pattern", e);
             throw new RuntimeException(e);

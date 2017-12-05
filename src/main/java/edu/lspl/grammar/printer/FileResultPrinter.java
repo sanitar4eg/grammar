@@ -31,14 +31,17 @@ public class FileResultPrinter implements ResultPrinter {
     private static final Function<String, String> fileName = (name) -> "results/" + name + ".txt";
 
     public void printMatches(Text text, List<Pattern> patterns) {
+        log.info("Start printing matches");
         Map<Pattern, List<String>> map = getPatternListMap(text, patterns);
 
         map.forEach(this::printMatchesToFile);
 
+        log.info("Finish printing matches");
     }
 
     private void printMatchesToFile(Pattern pattern, List<String> matches) {
         try {
+            log.info("Printing matches for pattern: {}", pattern.name);
             checkResultsDir();
 
             Path file = Paths.get(fileName.apply(pattern.name));
@@ -50,6 +53,8 @@ public class FileResultPrinter implements ResultPrinter {
             Files.write(file, "\n".getBytes(), StandardOpenOption.APPEND);
 
             Files.write(file, matches, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+
+            log.info("Finish printing matches");
         } catch (Exception e) {
             log.error("Error while create file", e);
         }
@@ -57,6 +62,7 @@ public class FileResultPrinter implements ResultPrinter {
 
     public void printWords(Text text) {
         try {
+            log.info("Start printing words");
             checkResultsDir();
 
             Path file = Paths.get(WORDS);
@@ -68,6 +74,7 @@ public class FileResultPrinter implements ResultPrinter {
 
             Files.write(file, lines, StandardCharsets.UTF_8,
                     StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE);
+            log.info("Finish printing words");
         } catch (Exception e) {
             log.error("Error while create file", e);
         }
