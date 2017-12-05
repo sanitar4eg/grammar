@@ -22,6 +22,7 @@ public class SampleStart {
     private final ResultPrinter printer;
     private final TextAnalyzer textAnalyzer;
     @Value("classpath:static/text.txt")
+//    @Value("classpath:static/SBDv01.txt")
     private Resource text;
     @Value("classpath:static/patterns.txt")
     private Resource patterns;
@@ -34,13 +35,11 @@ public class SampleStart {
 
     @PostConstruct
     public void init() {
-        textAnalyzer.loadPatterns(patterns);
-
         Text text = textAnalyzer.analyze(this.text);
 
         List<Pattern> patterns = textAnalyzer.loadPatterns(this.patterns);
 
-        printer.printWords(text);
+//        printer.printWords(text);
 
         printer.printMatches(text, patterns);
     }
