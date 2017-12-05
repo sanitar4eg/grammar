@@ -8,6 +8,7 @@ import ru.lspl.text.Match;
 import ru.lspl.text.Text;
 import ru.lspl.text.attributes.AttributeKey;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -20,6 +21,8 @@ import static java.util.stream.Collectors.*;
 public interface ResultPrinter {
 
     Logger log = LoggerFactory.getLogger(ResultPrinter.class);
+
+    boolean COUNT = true;
 
     void printMatches(Text text, List<Pattern> patterns);
 
@@ -35,19 +38,26 @@ public interface ResultPrinter {
     }
 
     default Map<Pattern, List<String>> getPatternListMap(Text text, List<Pattern> patterns) {
+        if (COUNT) {
+            return patterns.stream()
+                    .filter(this::isDefined)
+                    .map(pattern ->
+                            new SimpleEntry<>(pattern, text.getMatches(pattern)))
+                    .map(entry ->
+                            new SimpleEntry<>(entry.getKey(), countAndOrder(entry.getValue())))
+                    .collect(Collectors.toMap((SimpleEntry::getKey), (SimpleEntry::getValue)));
+        } else {
+            return patterns.stream()
+                    .filter(this::isDefined)
+                    .collect(toMap(identity(),
+                            pattern -> text.getMatches(pattern).stream()
+                                    .map(Match::getContent)
+                                    .collect(toList())));
+        }
+    }
 
-        return patterns.stream()
-                .filter(pattern -> !LsplTextAnalyzer.definedPatterns.contains(pattern.name))
-                .collect(toMap(identity(),
-                        pattern -> text.getMatches(pattern).stream()
-                                .map(Match::getContent)
-                                .collect(toList())));
-
-//                .map(pattern ->
-//                        new SimpleEntry<>(pattern, text.getMatches(pattern)))
-//                .map(entry ->
-//                        new SimpleEntry<>(entry.getKey(), countAndOrder(entry.getValue())))
-//                .collect(Collectors.toMap((SimpleEntry::getKey), (SimpleEntry::getValue)));
+    default boolean isDefined(Pattern pattern) {
+        return !LsplTextAnalyzer.definedPatterns.contains(pattern.name);
     }
 
     default List<String> countAndOrder(Object value) {

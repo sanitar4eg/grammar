@@ -21,8 +21,8 @@ public class SampleStart {
     private static final Logger log = LoggerFactory.getLogger(SampleStart.class);
     private final ResultPrinter printer;
     private final TextAnalyzer textAnalyzer;
-    @Value("classpath:static/text.txt")
-//    @Value("classpath:static/SBDv01.txt")
+    //    @Value("classpath:static/text.txt")
+    @Value("classpath:static/SBDv01.txt")
     private Resource text;
     @Value("classpath:static/patterns.txt")
     private Resource patterns;
