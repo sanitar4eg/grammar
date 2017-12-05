@@ -5,9 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.lspl.patterns.Pattern;
-import ru.lspl.text.Match;
 import ru.lspl.text.Text;
-import ru.lspl.text.Transition;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -33,13 +31,13 @@ public class FileResultPrinter implements ResultPrinter {
     private static final Function<String, String> fileName = (name) -> "results/" + name + ".txt";
 
     public void printMatches(Text text, List<Pattern> patterns) {
-        Map<Pattern, List<Match>> map = getPatternListMap(text, patterns);
+        Map<Pattern, List<String>> map = getPatternListMap(text, patterns);
 
         map.forEach(this::printMatchesToFile);
 
     }
 
-    private void printMatchesToFile(Pattern pattern, List<Match> matches) {
+    private void printMatchesToFile(Pattern pattern, List<String> matches) {
         try {
             checkResultsDir();
 
@@ -51,10 +49,7 @@ public class FileResultPrinter implements ResultPrinter {
                     StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE);
             Files.write(file, "\n".getBytes(), StandardOpenOption.APPEND);
 
-            List<String> strings = matches.stream()
-                    .map(Transition::getContent)
-                    .collect(Collectors.toList());
-            Files.write(file, strings, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            Files.write(file, matches, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
         } catch (Exception e) {
             log.error("Error while create file", e);
         }
